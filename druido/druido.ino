@@ -69,36 +69,31 @@ int Dist_R = 100;
 
 int drehung = 0;
 
+#define mode 1
 
 void loop() {
  drehung = 0;
 
- while (true) {
-    Serial.print(analogRead(S_Lin_M));
-    Serial.println();
-    delay(50);
- }
  Dist_L = sensor_L.entfernung();
  Dist_M = sensor_M.entfernung();
  Dist_R = sensor_R.entfernung();
 
 
 
-
-
-/* reagieren auf Hindernisse 
- if ( Dist_L<80 ) {
-  drehung = (80-Dist_L)/2;
+ if (mode == 1 ) {
+     // reagieren auf Hindernisse 
+     if ( Dist_L<80 ) {
+      drehung = (80-Dist_L)/2;
+     }
+     
+     if ( Dist_R<80) {
+      drehung = -1 * ((80-Dist_R)/2);  
+     }
+ } else {
+    /* reagieren auf Lich */
+    drehung = sensor.Lichtrichtung();
  }
- 
- if ( Dist_R<80) {
-  drehung = -1 * ((80-Dist_R)/2);  
- }
-*/
 
-/* reagieren auf Lich */
-  drehung = sensor.Lichtrichtung();
- 
 
  if ( Dist_M < 20 ) { // Hinderniss zu nah, drehen
    antrieb.fahren(0, 100); 
@@ -106,9 +101,6 @@ void loop() {
  } else { // Hinderniss noch entfernt, ausweichen   
    antrieb.fahren(60, drehung);  
  }
-
- Serial.print("    Drehung ");
- Serial.println(drehung);
  delay(100);
 
 
