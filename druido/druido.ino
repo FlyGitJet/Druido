@@ -69,6 +69,9 @@ int Dist_R = 100;
 
 int drehung = 0;
 
+int alpha = 0;
+double avg = 0;
+
 #define mode 1
 
 void loop() {
@@ -78,6 +81,44 @@ void loop() {
  Dist_M = sensor_M.entfernung();
  Dist_R = sensor_R.entfernung();
 
+ while ( true ) {
+  alpha = 0;
+  servos.write(150);   // tell servo to go to position in variable 'pos'
+
+  for (int x = 1; x<80; x++) {
+    alpha = (x * 2) + 10;
+
+    servos.write(alpha);   // tell servo to go to position in variable 'pos'
+    delay(20); // zwecks zeitoptimierung hier später die berechnung einfühgen....
+    avg = 0;
+    for (int m = 0; m < 10; m++) {
+       avg = avg + analogRead(DIST);
+    }
+    avg = avg / 10;
+    Serial.println(600-avg);
+   }
+
+      for (int m = 0; m < 20; m++) {
+       Serial.println(0);      
+    }
+
+   for (int x = 80; x>0; x--) {
+    alpha = (x * 2) + 10;
+
+    servos.write(alpha);   // tell servo to go to position in variable 'pos'
+    delay(20); // zwecks zeitoptimierung hier später die berechnung einfühgen....
+    avg = 0;
+    for (int m = 0; m < 10; m++) {
+       avg = avg + analogRead(DIST);       
+    }
+    avg = avg / 10;
+    Serial.println(600-avg);
+   }
+    for (int m = 0; m < 20; m++) {
+       Serial.println(0);      
+    }
+  
+ }
 
 
  if (mode == 1 ) {
