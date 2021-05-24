@@ -99,7 +99,7 @@ void loop() {
    }
 
       for (int m = 0; m < 20; m++) {
-       Serial.println(0);      
+       Serial.println(0 );      
     }
 
    for (int x = 80; x>0; x--) {
